@@ -1,0 +1,32 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: flux
+  namespace: flux
+spec:
+  interval: 1m0s
+  ref:
+    branch: master
+  secretRef:
+    name: flux-system             # Setthe secret before to access git repo if any
+  url: ssh://git@github.com/repo  # Change the repo 
+  ignore: |
+    .git/
+    .github/
+    .sops.yaml
+    .gitlab-ci.yml
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux
+  namespace: flux
+spec:
+  interval: 2m
+  path: ./nginx    #  Path in repo from which the manifest files would be deployed
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux
+  validation: client

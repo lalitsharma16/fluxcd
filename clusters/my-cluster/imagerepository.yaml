@@ -1,0 +1,10 @@
+apiVersion: image.toolkit.fluxcd.io/v1alpha1
+kind: ImageRepository
+metadata:
+  name: helloworld
+  namespace: flux
+spec:
+  secretRef:
+    name: image-reg-access
+  image: nginx
+  interval: 1m0s

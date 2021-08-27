@@ -1,0 +1,18 @@
+apiVersion: image.toolkit.fluxcd.io/v1alpha1
+kind: ImagePolicy
+metadata:
+  name: helloworld
+  namespace: flux
+spec:
+  imageRepositoryRef:
+    name: helloworld
+  policy:
+#    semver:
+#      range: '>=1.0'
+    alphabetical:
+      order: desc
+#    numerical:
+#      order: desc
+  filterTags:
+    pattern: '^1.*'
+    extract: '$timestamp'
